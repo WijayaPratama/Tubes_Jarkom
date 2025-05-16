@@ -1,8 +1,6 @@
 import socket
 import threading
 
-
-
 def handle_client (connection_socket):
     message = connection_socket.recv(1024).decode()
     try:
@@ -13,8 +11,8 @@ def handle_client (connection_socket):
         connection_socket.send(header.encode())
         connection_socket.send(output_data)
     except FileNotFoundError:
-        header = 'HTTP/1.1 404 Not Found\r\n\r\n'
         body = '<html><body><h1>Error page</h1></body></html>'
+        header = f'HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\nContent-Length: {len(body.encode())}\r\nConnection: close\r\n\r\n'
         connection_socket.send(header.encode())
         connection_socket.send(body.encode())
     except IndexError:
