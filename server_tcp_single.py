@@ -4,7 +4,7 @@ def handle_client (connection_socket):
     message = connection_socket.recv(1024).decode()
     try:
         filename = message.split()[1]
-        with open(filename[1:], 'rb') as f:  # [1:] untuk menghapus '/'
+        with open(filename[1:], 'rb') as f:  
             output_data = f.read()
         header = f'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {len(output_data)}\r\nConnection: close\r\n\r\n'
         connection_socket.send(header.encode())
@@ -22,9 +22,8 @@ def handle_client (connection_socket):
         connection_socket.close()
 
 if __name__ == "__main__":
-    # Setup socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('', 6789))  # Bind to port 6789
+    server_socket.bind(('', 6789))  
     server_socket.listen(5)
     print("Server is ready to receive...")
 
